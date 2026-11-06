@@ -1,0 +1,239 @@
+<!doctype html>
+<!--
+  PAGE LAYOUT ONLY. Game content is configured in JavaScript:
+  - Towers and enemy specs: js/config/towers.js and js/config/enemies.js
+  - Levels and maps: js/content/levels/ and js/content/maps/
+  - Generated panels and dialogs: js/ui.js
+  Keep element IDs when changing this layout: the UI uses them as hooks.
+  Editing guide: docs/MODIFYING_GAME.md
+-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#171e1b" />
+    <meta
+      name="description"
+      content="Choose Tower Defense or Circle Defense. Protect a base across four campaign maps, or control three portals in a looping maze without exceeding 100 living mobs."
+    />
+    <title>Tower Defense · The Woodland Pass</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='8' fill='%23202923'/%3E%3Ctext x='6' y='32' font-size='34' fill='%23c3d58c'%3E%E2%99%9C%3C/text%3E%3C/svg%3E"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/mobile.css" />
+  </head>
+  <body>
+    <div id="orientation-screen" class="orientation-screen" role="status" aria-live="polite" hidden>
+      <span class="rotate-device" aria-hidden="true">▯ ↻</span>
+      <h1>Rotate your device</h1>
+      <p>Play in landscape for a clear battlefield and reachable controls.</p>
+      <small>Your game is frozen while this screen is visible.</small>
+    </div>
+    <div class="app">
+      <!-- Brand, live wave count, player resources, and sound control. -->
+      <header class="header">
+        <button class="brand" id="game-title" type="button" aria-label="Game title">
+          <span class="brand-icon">♜</span>
+          <span>
+            <span id="brand-title">TOWER DEFENSE</span>
+            <small id="brand-subtitle">THE WOODLAND PASS</small>
+          </span>
+        </button>
+        <div class="resources" aria-label="Game resources">
+          <div>
+            <span id="wave-label">WAVE</span>
+            <strong id="wave">
+              01
+              <small>/ 20</small>
+            </strong>
+          </div>
+          <div>
+            <span id="resource-label">LIVES</span>
+            <strong id="lives" class="rose">20</strong>
+          </div>
+          <div>
+            <span>GOLD</span>
+            <strong id="gold" class="gold">200</strong>
+          </div>
+          <div id="score-card" role="button" tabindex="0" aria-label="Score">
+            <span>SCORE</span>
+            <strong id="score">0</strong>
+          </div>
+        </div>
+        <div class="header-tools">
+          <button
+            id="mobile-help"
+            class="icon-button mobile-help"
+            type="button"
+            aria-label="How to play"
+          >
+            ?
+          </button>
+          <button id="fullscreen" class="icon-button" type="button" aria-pressed="false">
+            Fullscreen
+          </button>
+          <div id="cheats" class="cheats" hidden>
+            <button
+              id="toggle-cheats"
+              class="icon-button"
+              type="button"
+              aria-expanded="false"
+              aria-controls="cheat-form"
+            >
+              Cheats
+            </button>
+            <form id="cheat-form" class="cheat-form" hidden>
+              <div class="cheat-heading">
+                <b>Developer controls</b>
+                <button type="button" id="close-cheats" aria-label="Close cheats">×</button>
+              </div>
+              <label for="cheat-gold">Gold balance</label>
+              <input
+                id="cheat-gold"
+                type="number"
+                min="0"
+                max="9007199254740991"
+                step="1"
+                inputmode="numeric"
+                required
+              />
+              <button type="submit" class="secondary">Set gold</button>
+              <label class="cheat-check">
+                <input id="cheat-merge" type="checkbox" />
+                Enable tower fusion
+              </label>
+              <label class="cheat-check">
+                <input id="cheat-strong" type="checkbox" />
+                Unlock Titan Tower
+              </label>
+            </form>
+          </div>
+          <button id="sound" class="icon-button" aria-label="Enable sound" title="Toggle sound (M)">
+            ♪
+            <span>OFF</span>
+          </button>
+        </div>
+      </header>
+      <p id="fullscreen-status" class="fullscreen-status" role="status" hidden></p>
+      <main class="layout">
+        <!-- Canvas and battle controls. Canvas content is drawn by js/map.js. -->
+        <section class="battlefield" aria-label="Battlefield">
+          <div class="map-heading">
+            <div>
+              <span class="eyebrow">DEFEND THE CROSSING</span>
+              <h1 id="map-name">The Woodland Pass</h1>
+            </div>
+            <span class="map-tag" id="map-tag">CLASSIC · 20 WAVES</span>
+            <button id="zoom-map" class="text-button" type="button" aria-pressed="false">
+              Larger tiles
+            </button>
+          </div>
+          <div class="canvas-wrap">
+            <canvas
+              id="game"
+              width="864"
+              height="576"
+              tabindex="0"
+              aria-label="Tower defense battlefield. Select a tower with keys 1–5, use arrow keys to move the placement cursor, and Enter to build or select."
+            ></canvas>
+            <div id="pause-banner" hidden>
+              <span>Ⅱ</span>
+              <h2>Taking a breather.</h2>
+              <p>Press P or Resume to return to the pass.</p>
+            </div>
+            <div id="toast" role="status" aria-live="polite"></div>
+          </div>
+          <div class="wave-strip">
+            <span id="wave-status">
+              <i class="status-dot"></i>
+              Ready when you are
+            </span>
+            <span id="enemy-count">Build your first line of defense</span>
+          </div>
+          <div class="progress-track"><div id="wave-progress"></div></div>
+          <div id="circle-pressure" class="circle-pressure" hidden aria-live="polite">
+            <div>
+              <span id="pressure-label">Living population</span>
+              <b id="pressure-count">0 / 100</b>
+            </div>
+            <div class="pressure-track"><div id="population-fill"></div></div>
+          </div>
+          <div class="controls">
+            <button id="start-wave" class="primary">
+              Start wave 1
+              <span>→</span>
+            </button>
+            <button id="pause" class="secondary">Ⅱ Pause</button>
+            <button id="speed" class="secondary" title="Change speed (F)">1× Speed</button>
+            <button id="restart" class="text-button" title="Restart game">↻ Restart</button>
+          </div>
+          <div class="field-note">
+            <span>
+              ⌖
+              <b>Hold the line.</b>
+              <span id="field-tip">Place towers near bends to make every shot count.</span>
+            </span>
+            <button id="help" class="text-button">
+              How to play
+              <span>?</span>
+            </button>
+          </div>
+        </section>
+        <!-- Shop and inspection content is generated from unit definitions. -->
+        <aside class="sidebar">
+          <section class="panel arsenal">
+            <div class="section-heading">
+              <h2>Build a tower</h2>
+              <span id="tower-shortcuts">KEYS 1–5</span>
+            </div>
+            <p class="muted">Choose your defense. Make it count.</p>
+            <!-- Add towers in js/config/towers.js; the shop populates automatically. -->
+            <div id="tower-shop"></div>
+            <p class="shop-tip">
+              Select a tower, then click a grass tile.
+              <br />
+              <kbd>ESC</kbd>
+              to cancel placement
+            </p>
+          </section>
+          <section class="panel inspection" id="inspection" aria-live="polite"></section>
+          <section class="panel stage-intel" id="stage-intel" hidden></section>
+          <section class="records">
+            <span>PERSONAL BEST</span>
+            <div>
+              <span>
+                High score
+                <b id="best-score">0</b>
+              </span>
+              <span>
+                <span id="best-wave-label">Highest wave</span>
+                <b id="best-wave">—</b>
+              </span>
+            </div>
+          </section>
+        </aside>
+      </main>
+      <footer>
+        <span>A little planning. A lot of defending.</span>
+        <span>
+          <kbd>SPACE</kbd>
+          next wave &nbsp;
+          <kbd>P</kbd>
+          pause &nbsp;
+          <kbd>F</kbd>
+          speed &nbsp;
+          <kbd>M</kbd>
+          sound
+        </span>
+        <span>BUILT FOR THE LONG GAME</span>
+      </footer>
+    </div>
+    <!-- Start menu, field guide, checkpoints, and result screens (js/ui.js). -->
+    <dialog id="screen" aria-labelledby="screen-title">
+      <div class="dialog-inner" id="screen-content"></div>
+    </dialog>
+    <script type="module" src="js/main.js"></script>
+  </body>
+</html>

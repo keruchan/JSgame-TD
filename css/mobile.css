@@ -1,0 +1,650 @@
+/* Fullscreen, reference-style developer controls, and phone landscape layout. */
+.brand {
+  background: none;
+  border: 0;
+  padding: 0;
+  text-align: left;
+}
+button,
+#score-card {
+  touch-action: manipulation;
+}
+.header-tools {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+}
+.cheats {
+  position: relative;
+}
+.cheat-form {
+  position: absolute;
+  z-index: 40;
+  right: 0;
+  top: calc(100% + 9px);
+  width: 270px;
+  padding: 15px;
+  background: var(--panel);
+  border: 1px solid #71845e;
+  border-radius: 8px;
+  box-shadow: 0 10px 45px #0008;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  color: var(--text);
+  font-size: 12px;
+}
+.cheat-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  grid-column: 1/-1;
+}
+.cheat-heading button {
+  border: 0;
+  background: none;
+  color: var(--text);
+  font-size: 24px;
+  padding: 0 6px;
+}
+.cheat-form > label:first-of-type {
+  grid-column: 1/-1;
+  color: var(--muted);
+}
+.cheat-form input[type='number'] {
+  width: 100%;
+  min-width: 0;
+  padding: 9px;
+  background: #17201b;
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font: inherit;
+}
+.cheat-check {
+  grid-column: 1/-1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 30px;
+}
+.cheat-check input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--accent);
+}
+.fullscreen-status {
+  color: var(--rose);
+  font-size: 12px;
+  margin: 10px 0;
+}
+.dialog-tools {
+  display: flex;
+  justify-content: flex-end;
+  margin: -10px 0 8px;
+}
+.dialog-tools button {
+  font-size: 10px;
+  padding: 6px 9px;
+}
+.fusion-strength {
+  color: var(--gold);
+  font-size: 10px;
+  margin-top: 5px;
+}
+.merge-button {
+  width: 100%;
+  margin-top: 10px;
+  font-size: 11px;
+}
+.merge-hint {
+  font-size: 10px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+.inspection-actions {
+  margin: 12px 0;
+}
+.mobile-help,
+#zoom-map {
+  display: none;
+}
+.orientation-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: var(--bg);
+  color: var(--text);
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.orientation-screen h1 {
+  font-size: 32px;
+  margin: 25px 0 10px;
+}
+.orientation-screen p {
+  max-width: 300px;
+  line-height: 1.7;
+  color: var(--muted);
+}
+.orientation-screen small {
+  color: var(--muted);
+  margin-top: 20px;
+}
+.rotate-device {
+  font-size: 65px;
+  color: var(--accent);
+}
+body.portrait-blocked {
+  overflow: hidden;
+  height: 100dvh;
+}
+.portrait-blocked .app {
+  display: none;
+}
+.portrait-blocked dialog {
+  display: none !important;
+}
+
+/* A fixed field and independent right-side lists replace page scrolling. */
+body.mobile-landscape {
+  height: 100dvh;
+  overflow: hidden;
+  font-size: 12px;
+  overscroll-behavior: none;
+}
+.mobile-landscape .app,
+.mobile-landscape.circle-mode .app {
+  max-width: none;
+  height: 100dvh;
+  padding: 4px max(6px, env(safe-area-inset-right)) 4px max(6px, env(safe-area-inset-left));
+  display: grid;
+  grid-template-rows: 40px minmax(0, 1fr);
+  gap: 5px;
+}
+.mobile-landscape .header {
+  min-height: 0;
+  height: 40px;
+  gap: 8px;
+  padding: 0;
+  flex-wrap: nowrap;
+  overflow: visible;
+}
+.mobile-landscape .brand {
+  gap: 6px;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+  flex: none;
+}
+.mobile-landscape .brand-icon {
+  width: 25px;
+  height: 28px;
+  font-size: 23px;
+  border-radius: 4px;
+}
+.mobile-landscape .brand small {
+  display: none;
+}
+.mobile-landscape .resources {
+  order: 0;
+  width: auto;
+  flex: 1;
+  justify-content: center;
+  gap: 14px;
+  margin: 0;
+}
+.mobile-landscape .resources > div {
+  min-width: 40px;
+}
+.mobile-landscape .resources > div > span {
+  font-size: 8px;
+  letter-spacing: 0.4px;
+  margin-bottom: 1px;
+}
+.mobile-landscape .resources strong,
+.mobile-landscape.circle-mode #lives {
+  font-size: 16px;
+}
+.mobile-landscape .resources small {
+  font-size: 10px;
+}
+.mobile-landscape .header-tools {
+  gap: 4px;
+  margin-left: auto;
+}
+.mobile-landscape .icon-button {
+  padding: 6px;
+  font-size: 10px;
+  min-height: 30px;
+  border-radius: 4px;
+}
+.mobile-landscape #sound {
+  margin: 0;
+}
+.mobile-landscape .mobile-help {
+  display: block;
+}
+.mobile-landscape .layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 230px;
+  gap: 6px;
+  min-height: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+}
+.mobile-landscape .battlefield {
+  display: grid;
+  grid-template-rows: 22px minmax(0, 1fr) 17px 2px 35px;
+  gap: 3px;
+  min-height: 0;
+  min-width: 0;
+  position: relative;
+}
+.mobile-landscape .map-heading {
+  margin: 0;
+  gap: 5px;
+  min-width: 0;
+}
+.mobile-landscape .map-heading .eyebrow,
+.mobile-landscape .map-tag {
+  display: none;
+}
+.mobile-landscape h1 {
+  font-size: 16px;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.mobile-landscape #zoom-map {
+  display: block;
+  font-size: 10px;
+  padding: 3px 5px;
+  white-space: nowrap;
+  margin-left: auto;
+}
+.mobile-landscape .canvas-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  border-radius: 5px;
+  background: #253b30;
+}
+.mobile-landscape #game {
+  flex: none;
+  max-width: none;
+  aspect-ratio: auto;
+}
+.mobile-landscape .canvas-wrap.zoomed {
+  display: block;
+  overflow: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+}
+.mobile-landscape .canvas-wrap.zoomed canvas {
+  touch-action: pan-x pan-y;
+}
+.mobile-landscape .wave-strip {
+  font-size: 9px;
+  padding: 0;
+  align-items: center;
+  gap: 5px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.mobile-landscape #enemy-count {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.mobile-landscape .progress-track {
+  height: 2px;
+}
+.mobile-landscape .controls {
+  display: flex;
+  padding: 0;
+  gap: 4px;
+  flex-wrap: nowrap;
+  min-width: 0;
+  align-items: stretch;
+}
+.mobile-landscape .controls .primary {
+  min-width: 0;
+  flex: 1;
+  padding: 6px 9px;
+  font-size: 11px;
+}
+.mobile-landscape .controls .primary span {
+  margin-left: 4px;
+}
+.mobile-landscape .controls .secondary {
+  padding: 5px 8px;
+  font-size: 10px;
+  white-space: nowrap;
+}
+.mobile-landscape .controls .text-button {
+  padding: 5px;
+  font-size: 10px;
+  margin: 0;
+  white-space: nowrap;
+}
+.mobile-landscape .field-note,
+.mobile-landscape footer,
+.mobile-landscape .records,
+.mobile-landscape .stage-intel {
+  display: none !important;
+}
+.mobile-landscape .circle-pressure {
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  bottom: 63px;
+  margin: 0;
+  padding: 5px 7px;
+  border-radius: 4px;
+  background: #17201be6;
+  font-size: 9px;
+  pointer-events: none;
+  z-index: 2;
+}
+.mobile-landscape .circle-pressure > div:first-child {
+  margin-bottom: 4px;
+}
+.mobile-landscape .pressure-track {
+  height: 3px;
+}
+.mobile-landscape .sidebar {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: minmax(110px, 0.9fr) minmax(130px, 1.1fr);
+  gap: 6px;
+  min-height: 0;
+  height: 100%;
+  padding: 0;
+  overflow: hidden;
+  align-items: stretch;
+}
+.mobile-landscape .panel {
+  padding: 7px;
+  min-height: 0;
+  min-width: 0;
+  border-radius: 5px;
+}
+.mobile-landscape .arsenal {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  height: 100%;
+  max-height: 100%;
+}
+.mobile-landscape .section-heading h2 {
+  font-size: 12px;
+}
+.mobile-landscape .section-heading > span,
+.mobile-landscape .arsenal > .muted,
+.mobile-landscape .arsenal > .shop-tip {
+  display: none;
+}
+.mobile-landscape #tower-shop {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  min-height: 0;
+  margin-top: 6px;
+  scrollbar-width: thin;
+  flex: 1 1 0%;
+}
+.mobile-landscape .tower-card {
+  gap: 7px;
+  padding: 6px;
+  margin-bottom: 5px;
+  min-height: 43px;
+}
+.mobile-landscape .tower-icon {
+  height: 27px;
+  width: 27px;
+  font-size: 20px;
+}
+.mobile-landscape .tower-name {
+  font-size: 11px;
+}
+.mobile-landscape .tower-description {
+  font-size: 9px;
+  margin-top: 3px;
+}
+.mobile-landscape .tower-price {
+  font-size: 11px;
+}
+.mobile-landscape .tower-price small {
+  display: none;
+}
+.mobile-landscape .inspection {
+  position: static;
+  margin: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  height: 100%;
+  max-height: 100%;
+}
+.mobile-landscape .inspection-title {
+  gap: 7px;
+}
+.mobile-landscape .inspection-title h2 {
+  font-size: 12px;
+}
+.mobile-landscape .level,
+.mobile-landscape .fusion-strength {
+  font-size: 9px;
+  margin-top: 3px;
+}
+.mobile-landscape .inspection-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5px;
+  margin: 7px 0;
+  position: sticky;
+  top: -7px;
+  background: var(--panel);
+  z-index: 2;
+  padding: 4px 0;
+}
+.mobile-landscape .inspection-actions .primary,
+.mobile-landscape .inspection-actions .sell-button {
+  padding: 5px;
+  font-size: 10px;
+  min-height: 32px;
+  margin: 0;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+}
+.mobile-landscape .inspection-actions .sell-button {
+  background: #273127;
+}
+.mobile-landscape .inspection-actions .merge-button {
+  grid-column: 1/-1;
+  margin: 0;
+  padding: 6px;
+  min-height: 32px;
+  font-size: 10px;
+}
+.mobile-landscape .merge-hint {
+  display: none;
+}
+.mobile-landscape .stats-grid {
+  margin: 8px 0;
+  gap: 7px;
+}
+.mobile-landscape .stats-grid dt {
+  font-size: 8px;
+  letter-spacing: 0.3px;
+}
+.mobile-landscape .stats-grid dd {
+  font-size: 11px;
+  margin-top: 3px;
+}
+.mobile-landscape .inspection > .muted,
+.mobile-landscape .counter-note,
+.mobile-landscape .target-control {
+  font-size: 10px;
+  line-height: 1.5;
+  margin: 8px 0;
+  padding: 0;
+}
+.mobile-landscape .target-control select {
+  padding: 5px;
+  font-size: 10px;
+}
+.mobile-landscape .empty-inspection {
+  padding: 4px 0;
+}
+.mobile-landscape .empty-inspection .crosshair {
+  font-size: 20px;
+  margin-bottom: 5px;
+}
+.mobile-landscape .empty-inspection h2 {
+  font-size: 12px;
+}
+.mobile-landscape .empty-inspection p {
+  font-size: 10px;
+  line-height: 1.6;
+}
+.mobile-landscape .cheat-form {
+  position: fixed;
+  right: max(8px, env(safe-area-inset-right));
+  top: 48px;
+  width: 275px;
+  max-height: calc(100dvh - 56px);
+  overflow: auto;
+  padding: 10px;
+  gap: 7px;
+  font-size: 11px;
+  z-index: 80;
+}
+.mobile-landscape .cheat-form .secondary {
+  padding: 7px;
+  font-size: 11px;
+}
+.mobile-landscape .fullscreen-status {
+  position: fixed;
+  left: 8px;
+  bottom: 5px;
+  max-width: 60%;
+  padding: 6px;
+  background: var(--panel);
+  z-index: 50;
+  margin: 0;
+  font-size: 10px;
+}
+.mobile-landscape dialog {
+  max-height: calc(100dvh - 16px);
+  max-width: min(700px, calc(100vw - 24px));
+  width: 650px;
+}
+.mobile-landscape .dialog-inner {
+  padding: 17px 22px;
+}
+.mobile-landscape .dialog-inner h2 {
+  font-size: 25px;
+  margin: 6px 0 10px;
+}
+.mobile-landscape .dialog-inner p {
+  font-size: 11px;
+  line-height: 1.6;
+  margin: 8px 0;
+}
+.mobile-landscape .dialog-emblem {
+  display: none;
+}
+.mobile-landscape .defense-modes {
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 12px;
+}
+.mobile-landscape .mode-card {
+  padding: 12px;
+  gap: 7px;
+  grid-template-columns: 27px 1fr;
+}
+.mobile-landscape .mode-symbol {
+  font-size: 25px;
+}
+.mobile-landscape .mode-card strong {
+  font-size: 16px;
+}
+.mobile-landscape .mode-card > span:not(.mode-symbol) {
+  font-size: 10px;
+  line-height: 1.6;
+}
+.mobile-landscape .level-picker {
+  margin: 9px 0;
+}
+.mobile-landscape .level-picker select {
+  margin-top: 4px;
+  padding: 7px;
+  font-size: 11px;
+}
+.mobile-landscape .dialog-inner > .primary {
+  margin-top: 9px;
+  padding: 9px;
+}
+.mobile-landscape .dialog-inner .text-button {
+  padding: 6px;
+  font-size: 11px;
+}
+.mobile-landscape #toast {
+  font-size: 10px;
+  bottom: 8px;
+  padding: 7px 10px;
+  z-index: 3;
+}
+.mobile-landscape #pause-banner h2 {
+  font-size: 24px;
+}
+.mobile-landscape #pause-banner p {
+  font-size: 11px;
+  text-align: center;
+  padding: 0 10px;
+}
+@media (orientation: landscape) and (max-width: 700px) {
+  .mobile-landscape .layout {
+    grid-template-columns: minmax(0, 1fr) 195px;
+  }
+  .mobile-landscape .brand-icon {
+    display: none;
+  }
+  .mobile-landscape .brand {
+    font-size: 10px;
+    max-width: 125px;
+  }
+  .mobile-landscape .resources {
+    gap: 7px;
+  }
+  .mobile-landscape .resources > div {
+    min-width: 32px;
+  }
+  .mobile-landscape .resources strong,
+  .mobile-landscape.circle-mode #lives {
+    font-size: 13px;
+  }
+  .mobile-landscape .header-tools {
+    gap: 3px;
+  }
+  .mobile-landscape .icon-button {
+    font-size: 9px;
+    padding: 5px;
+  }
+  .mobile-landscape .tower-description {
+    display: none;
+  }
+  .mobile-landscape .controls .primary {
+    font-size: 10px;
+  }
+}
